@@ -14,7 +14,7 @@ $(function() {
     // var trackName = $(
     //   '<h3><a href="${data.external_urls.spotify}">${data.name}</a></h3>'
     // );
-    // trackName.appendTo('#search-track-container');
+    trackName.appendTo('#search-track-container');
     
     var trackURL = data.external_urls.spotify;
     
