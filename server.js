@@ -49,7 +49,7 @@ spotifyApi.clientCredentialsGrant()
 app.get('/search-track', function (request, response) {
   
   // Search for a track!
-  spotifyApi.searchTracks('track:This is America', {limit: 1})
+  spotifyApi.searchTracks('track:DDU-DU DDU-DU', {limit: 1})
     .then(function(data) {
     
       // Send the first (only) track object
@@ -64,7 +64,17 @@ app.get('/category-playlists', function (request, response) {
   
   // Get playlists from a browse category
   // Find out which categories are available here: https://beta.developer.spotify.com/console/get-browse-categories/
-  spotifyApi.getPlaylistsForCategory('jazz', { limit : 5 })
+  spotifyApi.getPlaylistsForCategory('edm_dance', { limit : 10 }) // country: GB
+    .then(function(data) {
+    
+    // Send the list of playlists
+    response.send(data.body.playlists);
+    
+  }, function(err) {
+    console.error(err);
+  });
+    
+  spotifyApi.getPlaylistsForCategory('toplists', { limit : 10 }) // country: US
     .then(function(data) {
     
     // Send the list of playlists
@@ -76,6 +86,10 @@ app.get('/category-playlists', function (request, response) {
 });
 
 app.get('/audio-features', function (request, response) {
+  
+  // Get track name & artist
+  spotifyApi.getTrack('4uLU6hMCjMI75M1A2tKUQC')
+  spotifyApi.getArtist('4uLU6hMCjMI75M1A2tKUQC')
   
   // Get the audio features for a track ID
   spotifyApi.getAudioFeaturesForTrack('4uLU6hMCjMI75M1A2tKUQC')
@@ -92,7 +106,7 @@ app.get('/audio-features', function (request, response) {
 app.get('/artist', function (request, response) {
   
   // Get information about an artist
-  spotifyApi.getArtist('6jJ0s89eD6GaHleKKya26X')
+  spotifyApi.getArtist('163tK9Wjr9P9DmM0AVK7lm')
     .then(function(data) {
     
       // Send the list of tracks
@@ -106,7 +120,7 @@ app.get('/artist', function (request, response) {
 app.get('/artist-top-tracks', function (request, response) {
   
   // Get an artist's top tracks in a country
-  spotifyApi.getArtistTopTracks('0LcJLqbBmaGUft1e9Mm8HV', 'SE')
+  spotifyApi.getArtistTopTracks('41MozSoPIsD1dJM0CLPjZF', 'SK')
     .then(function(data) {
     
       // Send the list of tracks
@@ -115,6 +129,20 @@ app.get('/artist-top-tracks', function (request, response) {
     }, function(err) {
       console.error(err);
     });
+});
+
+app.get('/new-releases', function (request, response) {
+  
+  // Get new releases
+  spotifyApi.getNewReleases({ limit : 10 })
+    .then(function(data) {
+    
+    // Send the list of tracks
+    response.send(data.body.releases);
+    
+  }, function(err) {
+    console.error(err);
+  });
 });
 
 
