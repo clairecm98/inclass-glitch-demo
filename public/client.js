@@ -54,8 +54,16 @@ $(function() {
     console.log(data);
     console.groupEnd();
     
+    var track = 'Never Gonna Give You Up';
+    var trackName = $('<h3>' + track + '</h3>');
+    trackName.appendTo('#audio-features-container');
+    
+    var trackSinger = 'Rick Astley';
+    var trackArtist = $('<h5>' + trackSinger + '</h5>');
+    trackArtist.appendTo('#audio-features-container');
+    
     // The audio features we want to show
-    var keys = ["danceability", "energy", "acousticness"]
+    var keys = ["danceability", "energy", "acousticness", "loudness", "speechiness"]
     
     // Display the audio features
     keys.map(function(key, i) {
@@ -86,6 +94,16 @@ $(function() {
       var genreItem = $('<p>' + genre + '</p>');
       genreItem.appendTo('#artist-container');
     });
+    
+    // Display the artist's popularity value
+    var popularity = 'Popularity: ';
+    var popValue = $('<h5>' + popularity + data.popularity + '</h5>');
+    popValue.appendTo('#artist-container');
+    
+    // Display the artist's number of followers
+    var numFollowers = 'Followers: ';
+    var followers = $('<h5>' + numFollowers + data.followers.total + '</h5>');
+    followers.appendTo('#artist-container');
   });
   
   $.get('/artist-top-tracks', function(data) {
@@ -94,10 +112,28 @@ $(function() {
     console.log(data);
     console.groupEnd();
     
+    // Display artist name and country
+    var artistName = $('<h5>' + data[1].artists[0].name + ' (South Korea)' + '</h5>');
+    artistName.appendTo('#top-tracks-container');
+    
+    
     // Display the audio features
     data.map(function(track, i) {
       var trackName = $('<li>' + track.name + '</li>');
       trackName.appendTo('#top-tracks-container');
+    });
+  });
+  
+  $.get('/new-releases', function(data) {
+    // "Data" is the object we get from the API. See server.js for the function that returns it.
+    console.group('%cResponse from /new-releases', 'color: #F037A5; font-size: large');
+    console.log(data);
+    console.groupEnd();
+    
+    // Display new releases
+    data.map(function(album, i) {
+      var albumName = $('<li>' + album.name + '</li>');
+      albumName.appendTo('#new-releases-container');
     });
   });
 
